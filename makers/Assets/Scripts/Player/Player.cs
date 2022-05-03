@@ -10,10 +10,12 @@ public class Player : MonoBehaviour
 
     bool grounded = false;
     Rigidbody2D rigid;
+    SpriteRenderer sprite;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
@@ -24,9 +26,15 @@ public class Player : MonoBehaviour
     void HorizantalMove()  //수평움직임
     {
         if (Input.GetKey(KeyCode.A))
+        {
+            sprite.flipX = true;
             transform.position += Vector3.left * speed * Time.deltaTime;
+        }
         else if (Input.GetKey(KeyCode.D))
+        {
+            sprite.flipX = false;
             transform.position += Vector3.right * speed * Time.deltaTime;
+        }
     }
 
     void Jump()  //점프
