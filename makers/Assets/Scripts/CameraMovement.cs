@@ -6,37 +6,61 @@ public class CameraMovement : MonoBehaviour
 {
     public Transform target;
     public Vector3 offset;
-    public Vector3 init_offset;
     public float smooth = 3f;
-    public bool followActive = true;
-    // Start is called before the first frame update
+
+    public Vector2 mapSize;
+    public Vector2 center;
+
+    float height;
+    float width;
+
+    bool canMoveY=false;
+
     void Start()
     {
-        init_offset = offset;
+        height = Camera.main.orthographicSize;
+        width = height * Screen.width / Screen.height;
+        center = new Vector2(mapSize.x - height, mapSize.y - height); //mapSize-카메라 사이즈
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (target.position.x < 0)
-        {
-            followActive = false;
-            //transform.position = new Vector3(0, transform.position.y, transform.position.z);
-        }
-        else if (target.position.x >= 0)
-        {
-            followActive = true;
-        }
-
-
-        if (followActive)
-            transform.position = new Vector3(Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smooth).x, transform.position.y, transform.position.z);
+        cameraMove();
+        limitArea();
     }
 
-    public void InitFollowCamera(Transform playerPos)
+    void cameraMove()
     {
-        target = playerPos;
-        transform.position = new Vector3(transform.position.x, (target.position + offset).y, (target.position + offset).z);
+        if (target == null)
+            return;
+
+        if (target.transform.position.y > 0)
+            canMoveY = true;
+        else if (transform.position.y == 0)
+            canMoveY = false;
+
+        if (canMoveY)
+            transform.position = new Vector3(Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smooth).x,
+    Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smooth).y, transform.position.z);
+        else
+            transform.position = new Vector3(Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smooth).x,
+       0, transform.position.z);
+
     }
 
+    void limitArea()
+    {
+        float lx = mapSize.x - width;
+        float clampX = Mathf.Clamp(transform.position.x, center.x - lx, center.x + lx);
+        float ly = mapSize.y - height;
+        float clampY = Mathf.Clamp(transform.position.y, center.y - ly, center.y + ly);
+        transform.position = new Vector3(clampX, clampY, -10f);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(center, mapSize * 2);
+    }
 }

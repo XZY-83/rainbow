@@ -25,12 +25,12 @@ public class Player : MonoBehaviour
 
     void HorizantalMove()  //수평움직임
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetAxisRaw("Horizontal")<0)
         {
             sprite.flipX = true;
             transform.position += Vector3.left * speed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             sprite.flipX = false;
             transform.position += Vector3.right * speed * Time.deltaTime;
