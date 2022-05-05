@@ -57,13 +57,13 @@ public class Player : MonoBehaviour
 
     IEnumerator stopDash()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         isDash = false;
     }
 
     void Jump()  //점프
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             if (isGround)  //착지했을 때만 점프
             {
