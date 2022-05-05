@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public float dashSpeed = 15f;
     public float jumpspeed = 8f;
 
+    float jumpCount = 2;
+
     bool isGround = false;
     public bool isDash = false;
     Rigidbody2D rigid;
@@ -67,9 +69,16 @@ public class Player : MonoBehaviour
         {
             if (isGround)  //착지했을 때만 점프
             {
-                rigid.velocity=new Vector2(rigid.velocity.x, jumpspeed);
-                isGround = false;
+                if(jumpCount==2)
+                    rigid.velocity=new Vector2(rigid.velocity.x, jumpspeed);
+                else if(jumpCount==1)
+                    rigid.velocity = new Vector2(rigid.velocity.x, jumpspeed);
+
+                jumpCount--;
             }
+
+            if(jumpCount == 0)
+                isGround = false;
         }
 
 
@@ -83,6 +92,9 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
+        {
             isGround = true;
+            jumpCount = 2;
+        }
     }
 }
