@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask islayer;
     
     int jumpCount = 2;
+    int dashCount = 1;
     bool isDash = false;    
     
     Rigidbody2D rigid;
@@ -73,7 +74,10 @@ public class Player : MonoBehaviour
 
     void dash()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (isGround)
+            dashCount = 1;
+
+        if (Input.GetKeyDown(KeyCode.Z) && dashCount > 0)
             isDash = true;
 
         if (isDash)
@@ -82,6 +86,9 @@ public class Player : MonoBehaviour
                 transform.position += Vector3.left * speed * dashSpeed * Time.deltaTime;
             else
                 transform.position += Vector3.right * speed * dashSpeed * Time.deltaTime;
+
+            if(!isGround)
+                dashCount--;
 
             animator.SetTrigger("dash");
             StartCoroutine(stopDash());
