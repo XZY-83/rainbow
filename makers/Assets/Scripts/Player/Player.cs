@@ -36,12 +36,12 @@ public class Player : MonoBehaviour
 
     void HorizantalMove()  //수평움직임
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeySetting.keys[KeyAction.LEFT]))
         {
             sprite.flipX = true;
             transform.position += Vector3.left * speed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeySetting.keys[KeyAction.RIGHT]))
         {
             sprite.flipX = false;
             transform.position += Vector3.right * speed * Time.deltaTime;
@@ -58,15 +58,15 @@ public class Player : MonoBehaviour
         if (!isGround)
             animator.SetTrigger("jump");
 
-        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.DownArrow) && isGround)
+        if (Input.GetKeyDown(KeySetting.keys[KeyAction.JUMP]) && Input.GetKey(KeySetting.keys[KeyAction.DOWN]) && isGround)
         {
             GameObject.FindWithTag("DownPlatform").GetComponent<DownPlatform>().ChangeLayer();
             jumpCount = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.C) && jumpCount > 0)
+        else if (Input.GetKeyDown(KeySetting.keys[KeyAction.JUMP]) && jumpCount > 0)
             rigid.velocity = new Vector2(rigid.velocity.x, jumpspeed);
 
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeySetting.keys[KeyAction.JUMP]))
             jumpCount--;
 
 
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         if (isGround)
             dashCount = 1;
 
-        if (Input.GetKeyDown(KeyCode.Z) && dashCount > 0)
+        if (Input.GetKeyDown(KeySetting.keys[KeyAction.DASH]) && dashCount > 0)
             isDash = true;
 
         if (isDash)

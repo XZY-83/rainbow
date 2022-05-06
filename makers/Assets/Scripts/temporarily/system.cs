@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class system : MonoBehaviour
 {
-    public Canvas canvas;
+    public GameObject escapePan;
+    public GameObject keysettionPan;
 
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKey(KeyCode.Escape))
         {
-            canvas.enabled = true;
+            escapePan.SetActive(true);
+        }
+        else if(Input.GetKey(KeyCode.K)&&!escapePan.activeSelf)
+        {
+            keysettionPan.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
     public void gameContinue()
     {
-        canvas.enabled = false;        
+        escapePan.SetActive(false);
     }
 
     public void gameExit()
     {
         Application.Quit();
+    }
+
+    public void KS_cancel()
+    {
+        keysettionPan.SetActive(false);
+        Time.timeScale = 1;
     }
 }
