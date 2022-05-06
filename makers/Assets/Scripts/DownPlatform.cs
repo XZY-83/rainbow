@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class DownPlatform : MonoBehaviour
 {
-    public void ChangeLayer() 
+
+
+    public void ChangeLayer()
     {
-        gameObject.layer = 15; 
-        StartCoroutine("ReturnLayer"); 
+        gameObject.layer = 7;  //7=downplatform 
+        StartCoroutine("ReturnLayer");
     }
-    
     IEnumerator ReturnLayer() 
     { 
-        yield return new WaitForSeconds(2f); 
-        gameObject.layer = 8; 
+        yield return new WaitForSeconds(1.0f); 
+        gameObject.layer = 6; 
     }
-
 }

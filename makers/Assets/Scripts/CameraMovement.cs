@@ -58,9 +58,9 @@ public class CameraMovement : MonoBehaviour
         transform.position = new Vector3(clampX, clampY, -10f);
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(center, mapSize * 2);
-    }
+    }*/
 }

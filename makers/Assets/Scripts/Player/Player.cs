@@ -8,14 +8,17 @@ public class Player : MonoBehaviour
     public float speed = 8f;
     public float dashSpeed = 15f;
     public float jumpspeed = 8f;
+    public bool isGround = false;
 
-    float jumpCount = 2;
-
-    bool isGround = false;
-    public bool isDash = false;
+    [SerializeField] private Transform pos;
+    [SerializeField] LayerMask islayer;
+    
+    int jumpCount = 2;
+    bool isDash = false;    
+    
     Rigidbody2D rigid;
     SpriteRenderer sprite;
-
+    
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -41,6 +44,28 @@ public class Player : MonoBehaviour
             transform.position += Vector3.right * speed * Time.deltaTime;
         }
     }
+    void Jump()  //점프
+    {
+        isGround = Physics2D.OverlapCircle(pos.position, 0.1f, islayer);
+       
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.DownArrow) && isGround)
+        {
+            GameObject.FindWithTag("DownPlatform").GetComponent<DownPlatform>().ChangeLayer();
+            jumpCount = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && jumpCount > 0)
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpspeed);
+
+        if (Input.GetKeyUp(KeyCode.C))
+            jumpCount--;
+
+        if (isGround)
+            jumpCount = 2;
+
+
+    }
+
     void dash()
     {
         if (Input.GetKeyDown(KeyCode.Z))
@@ -63,38 +88,4 @@ public class Player : MonoBehaviour
         isDash = false;
     }
 
-    void Jump()  //점프
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (isGround)  //착지했을 때만 점프
-            {
-                if(jumpCount==2)
-                    rigid.velocity=new Vector2(rigid.velocity.x, jumpspeed);
-                else if(jumpCount==1)
-                    rigid.velocity = new Vector2(rigid.velocity.x, jumpspeed);
-
-                jumpCount--;
-            }
-
-            if(jumpCount == 0)
-                isGround = false;
-        }
-
-
-        /*if (Input.GetKeyDown(KeyCode.Space) && Input.GetButton("Vertical"))
-        {
-            GameObject.FindWithTag("DownPlatform").GetComponent<DownPlatform>().ChangeLayer();
-        }*/
-    }
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground"|| collision.gameObject.tag == "DownPlatform")
-        {
-            isGround = true;
-            jumpCount = 2;
-        }
-    }
 }
