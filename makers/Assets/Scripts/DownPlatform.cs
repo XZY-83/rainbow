@@ -13,7 +13,7 @@ public class DownPlatform : MonoBehaviour
     }
     IEnumerator ReturnLayer() 
     { 
-        yield return new WaitForSeconds(1.0f); 
+        yield return new WaitForSeconds(0.4f); 
         gameObject.layer = 6; 
     }
 }

@@ -47,21 +47,21 @@ public class Player : MonoBehaviour
     void Jump()  //มกวม
     {
         isGround = Physics2D.OverlapCircle(pos.position, 0.1f, islayer);
-       
+
+
+        if (isGround)
+            jumpCount = 2;
+        
         if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.DownArrow) && isGround)
         {
             GameObject.FindWithTag("DownPlatform").GetComponent<DownPlatform>().ChangeLayer();
             jumpCount = 0;
         }
-
-        if (Input.GetKeyDown(KeyCode.C) && jumpCount > 0)
+        else if (Input.GetKeyDown(KeyCode.C) && jumpCount > 0)
             rigid.velocity = new Vector2(rigid.velocity.x, jumpspeed);
 
         if (Input.GetKeyUp(KeyCode.C))
             jumpCount--;
-
-        if (isGround)
-            jumpCount = 2;
 
 
     }
