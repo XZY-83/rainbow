@@ -18,11 +18,13 @@ public class Player : MonoBehaviour
     
     Rigidbody2D rigid;
     SpriteRenderer sprite;
-    
+    Animator animator;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
     void Update()
     {
@@ -51,7 +53,10 @@ public class Player : MonoBehaviour
 
         if (isGround)
             jumpCount = 2;
-        
+
+        if (!isGround)
+            animator.SetTrigger("jump");
+
         if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.DownArrow) && isGround)
         {
             GameObject.FindWithTag("DownPlatform").GetComponent<DownPlatform>().ChangeLayer();
@@ -78,6 +83,7 @@ public class Player : MonoBehaviour
             else
                 transform.position += Vector3.right * speed * dashSpeed * Time.deltaTime;
 
+            animator.SetTrigger("dash");
             StartCoroutine(stopDash());
         }
     }
