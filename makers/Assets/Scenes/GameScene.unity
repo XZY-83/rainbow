@@ -16663,7 +16663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   dashSpeed: 3
-  jumpspeed: 15
+  jumpspeed: 16
   isGround: 0
   pos: {fileID: 475289329}
   islayer:

@@ -82,6 +82,8 @@ public class Player : MonoBehaviour
 
         if (isDash)
         {
+            rigid.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+
             if (sprite.flipX)
                 transform.position += Vector3.left * speed * dashSpeed * Time.deltaTime;
             else
@@ -98,6 +100,8 @@ public class Player : MonoBehaviour
     IEnumerator stopDash()
     {
         yield return new WaitForSeconds(0.2f);
+        rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         isDash = false;
     }
 
